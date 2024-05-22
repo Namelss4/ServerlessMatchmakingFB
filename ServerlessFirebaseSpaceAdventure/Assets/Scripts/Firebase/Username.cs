@@ -38,6 +38,7 @@ public class Username : MonoBehaviour
                     {
                         DataSnapshot snapshot = task.Result;
                         userText.text = (string)snapshot.Value;
+                        //userText.text = currentUser.UserId;
                         Debug.Log("Username: " + userText.text);
                     }
                 } );

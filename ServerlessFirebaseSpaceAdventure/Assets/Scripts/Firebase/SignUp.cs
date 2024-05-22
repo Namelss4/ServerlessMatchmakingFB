@@ -106,7 +106,6 @@ public class SignUp : MonoBehaviour
             Debug.Log("UsernameM: " + name);
             dataBaseReference.Child("users").Child(result.User.UserId).Child("username").SetValueAsync(name);
             dataBaseReference.Child("users").Child(result.User.UserId).Child("score").SetValueAsync(0);
-            
             authVar.ChangeAuthState();
             
         }
