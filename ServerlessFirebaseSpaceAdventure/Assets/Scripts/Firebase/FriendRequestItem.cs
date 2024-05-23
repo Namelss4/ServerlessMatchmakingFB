@@ -11,20 +11,22 @@ public class FriendRequestItem : MonoBehaviour
     public Button rejectButton;
 
     private string senderId;
+    private string senderUsername;
     private string receiverId;
     private DatabaseReference databaseReference;
     private FriendRequestManager friendRequestManager;
 
-    private void Start()
+    private void Awake()
     {
         databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
         acceptButton.onClick.AddListener(AcceptRequest);
         rejectButton.onClick.AddListener(RejectRequest);
     }
 
-    public void SetRequestData(string senderId, string receiverId, FriendRequestManager friendRequestManager)
+    public void SetRequestData(string senderId,string senderUsername, string receiverId, FriendRequestManager friendRequestManager)
     {
         this.senderId = senderId;
+        this.senderUsername = senderUsername;
         this.receiverId = receiverId;
         this.friendRequestManager = friendRequestManager;
         LoadUserData();
@@ -40,7 +42,7 @@ public class FriendRequestItem : MonoBehaviour
                 return;
             }
 
-            string username = task.Result.Value.ToString();
+            string username = senderUsername;
             usernameText.text = username;
         });
     }

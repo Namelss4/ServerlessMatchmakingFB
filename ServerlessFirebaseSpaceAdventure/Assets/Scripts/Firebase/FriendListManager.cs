@@ -14,11 +14,15 @@ public class FriendListManager : MonoBehaviour
     private DatabaseReference databaseReference;
     private string currentUserId;
     private List<FriendItem> friendItems = new List<FriendItem>();
+    private OnlineState onlineState;
 
-    private void Start()
+    public void Awake()
     {
         databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
         currentUserId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        GameObject onlineStateObject = new GameObject("OnlineState");
+        OnlineState onlineState = onlineStateObject.AddComponent<OnlineState>();
+        onlineState.currentUserId = currentUserId;
         LoadFriendList();
     }
 
@@ -50,6 +54,14 @@ public class FriendListManager : MonoBehaviour
         FriendItem friendItem = friendItemGO.GetComponent<FriendItem>();
         friendItem.SetFriendId(friendId);
         friendItems.Add(friendItem);
+        
+        // Suscribirse a los cambios en el estado en línea del amigo
+        DatabaseReference friendOnlineRef = databaseReference.Child("users").Child(friendId).Child("online");
+        friendOnlineRef.ValueChanged += OnFriendOnlineStatusChanged;
+    }
+    private void OnFriendOnlineStatusChanged(object sender, ValueChangedEventArgs args)
+    {
+        SortFriendsByOnlineStatus();
     }
 
     public void SortFriendsByOnlineStatus()

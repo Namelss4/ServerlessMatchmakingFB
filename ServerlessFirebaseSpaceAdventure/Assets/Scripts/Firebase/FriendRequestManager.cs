@@ -11,6 +11,7 @@ using TMPro;
 public class FriendRequestManager : MonoBehaviour
 {
     private DatabaseReference databaseReference;
+    private OnlineState onlineState;
     private string currentUserId;
     public ScrollRect scrollView;
     public GameObject requestItemPrefab;
@@ -20,6 +21,9 @@ public class FriendRequestManager : MonoBehaviour
     {
         databaseReference = FirebaseDatabase.DefaultInstance.RootReference.Child("users");
         currentUserId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        GameObject onlineStateObject = new GameObject("OnlineState");
+        OnlineState onlineState = onlineStateObject.AddComponent<OnlineState>();
+        onlineState.currentUserId = currentUserId;
     }
 
     public void SendFriendRequest()
@@ -61,15 +65,16 @@ public class FriendRequestManager : MonoBehaviour
 
         //string jsonRequest = JsonUtility.ToJson(request);
 
-        databaseReference.Child(currentUserId).Child("friendRequests").Child(requestKey).SetValueAsync(requestData);
         databaseReference.Child(receiverId).Child("friendRequests").Child(requestKey).SetValueAsync(requestData);
     }
 
     public void AcceptFriendRequest(string senderId, string requestKey)
     {
-        databaseReference.Child(senderId).Child("friendRequests").Child(currentUserId).Child(requestKey).Child("status").SetValueAsync("accepted");
-        AddFriend(senderId);
-        AddFriend(currentUserId);
+        databaseReference.Child(currentUserId).Child("friendRequests").Child(requestKey).Child("status").SetValueAsync("accepted");
+        AddFriend(senderId, currentUserId);
+        AddFriend(currentUserId, senderId);
+        // Eliminar la solicitud del nodo del remitente
+        databaseReference.Child(senderId).Child("friendRequests").Child(currentUserId).Child(requestKey).RemoveValueAsync();
     }
 
     public void RejectFriendRequest(string senderId, string requestKey)
@@ -77,10 +82,18 @@ public class FriendRequestManager : MonoBehaviour
         databaseReference.Child(senderId).Child("friendRequests").Child(currentUserId).Child(requestKey).Child("status").SetValueAsync("rejected");
     }
 
-    private void AddFriend(string userId)
+    private void AddFriend(string userId, string friendId)
     {
-        DatabaseReference userFriendsRef = FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(userId).Child("friends");
-        userFriendsRef.Child(currentUserId).SetValueAsync(true);
+        databaseReference.Child(userId).Child("friends").Child(friendId).Child("id").SetValueAsync(friendId);
+        databaseReference.Child(friendId).Child("username").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (!task.IsFaulted)
+            {
+                string friendUsername = task.Result.Value.ToString();
+                Debug.Log("Friend username: " + friendUsername);
+                databaseReference.Child(userId).Child("friends").Child(friendId).Child("username").SetValueAsync(friendUsername);
+            }
+        });
     }
 
     public void GetPendingFriendRequests(System.Action<List<FriendRequest>> callback)
@@ -104,9 +117,9 @@ public class FriendRequestManager : MonoBehaviour
                     string receiverId = requestData["receiverId"].ToString();
                     string status = requestData["status"].ToString();
                     
-                    FriendRequest request = new FriendRequest(senderId, senderUsername, receiverId, status);
-                    if (request.status == "pending")
+                    if (receiverId == currentUserId && status == "pending")
                     {
+                        FriendRequest request = new FriendRequest(senderId, senderUsername, receiverId, status);
                         requests.Add(request);
                     }
                 }
@@ -122,16 +135,16 @@ public class FriendRequestManager : MonoBehaviour
             {
                 foreach (FriendRequest request in requests)
                 {
-                    CreateRequestItem(request.senderId, request.receiverId);
+                    CreateRequestItem(request.senderId, request.senderUsername,request.receiverId);
                 }
             }
         });
     }
 
-    private void CreateRequestItem(string senderId, string receiverId)
+    private void CreateRequestItem(string senderId,string senderUsername, string receiverId)
     {
         GameObject requestItemGO = Instantiate(requestItemPrefab, scrollView.content);
         FriendRequestItem requestItem = requestItemGO.GetComponent<FriendRequestItem>();
-        requestItem.SetRequestData(senderId, receiverId, this);
+        requestItem.SetRequestData(senderId,senderUsername, receiverId, this);
     }
 }
