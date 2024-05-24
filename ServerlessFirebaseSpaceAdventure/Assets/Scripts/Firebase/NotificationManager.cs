@@ -22,13 +22,13 @@ public class NotificationManager : MonoBehaviour
     public void SetNotificationConnected(string friendName)
     {
         notification_Connected.SetActive(true);
-        notification_Connected.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = friendName + " just connected";
+        notification_Connected.transform.GetChild(1).transform.GetComponent<TextMeshProUGUI>().text = friendName + " just connected";
         StartCoroutine("Notification");
     }
     public void SetNotificationDisconnected(string friendName)
     {
         notification_Disconnected.SetActive(true);
-        notification_Disconnected.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = friendName + " has disconnected";
+        notification_Disconnected.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = friendName + " has disconnected";
         StartCoroutine("Notification");
     }
 

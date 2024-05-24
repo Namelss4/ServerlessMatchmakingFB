@@ -41,6 +41,7 @@ public class FriendOnlineStatusManager : MonoBehaviour
    private void MonitorFriendOnlineStatus(string friendId)
    {
       DatabaseReference friendOnlineRef = databaseReference.Child("users").Child(friendId).Child("online");
+      Debug.Log("MonitorFriendOnlineStatus: " + friendOnlineRef.ToString() + " is set to true");
       friendOnlineRef.ValueChanged += OnFriendOnlineStatusChanged;
    }
    private void OnFriendOnlineStatusChanged(object sender, ValueChangedEventArgs args)
@@ -58,16 +59,18 @@ public class FriendOnlineStatusManager : MonoBehaviour
          }
 
          string friendUsername = task.Result.Value.ToString();
-
+            Debug.Log("Friend username CHANGESTATE: " + friendUsername);
          // Mostrar la notificación correspondiente
          if (notificationManager != null)
          {
             if (isOnline)
             {
+               Debug.Log("Friend is online: " + friendUsername);
                notificationManager.SetNotificationConnected(friendUsername);
             }
             else
             {
+               Debug.Log("Friend is offline: " + friendUsername);
                notificationManager.SetNotificationDisconnected(friendUsername);
             }
          }

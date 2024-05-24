@@ -108,9 +108,9 @@ public class SignUp : MonoBehaviour
             Debug.Log("UsernameM: " + name);
             dataBaseReference.Child("users").Child(result.User.UserId).Child("username").SetValueAsync(name);
             dataBaseReference.Child("users").Child(result.User.UserId).Child("score").SetValueAsync(0);
-            FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(result.User.UserId).Child("searching").SetValueAsync(false);
-            FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(result.User.UserId).Child("match").SetValueAsync("");
-            FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(result.User.UserId).Child("accepted").SetValueAsync(false);
+            dataBaseReference.Child("users").Child(result.User.UserId).Child("searching").SetValueAsync(false);
+            dataBaseReference.Child("users").Child(result.User.UserId).Child("match").SetValueAsync("");
+            dataBaseReference.Child("users").Child(result.User.UserId).Child("accepted").SetValueAsync(false);
             authVar.ChangeAuthState();
             
         }
