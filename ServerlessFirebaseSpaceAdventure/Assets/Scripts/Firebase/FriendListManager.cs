@@ -10,22 +10,20 @@ public class FriendListManager : MonoBehaviour
 {
     public ScrollRect scrollView;
     public GameObject friendItemPrefab;
+    public NotificationManager notificationManager;
 
     private DatabaseReference databaseReference;
     private string currentUserId;
     private List<FriendItem> friendItems = new List<FriendItem>();
+    private Dictionary<string, FriendItem> friendItemsDictionary = new Dictionary<string, FriendItem>();
     private OnlineState onlineState;
 
-    public void Awake()
+    public void OnEnable()
     {
         databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
         currentUserId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-        GameObject onlineStateObject = new GameObject("OnlineState");
-        OnlineState onlineState = onlineStateObject.AddComponent<OnlineState>();
-        onlineState.currentUserId = currentUserId;
         LoadFriendList();
     }
-
     private void LoadFriendList()
     {
         databaseReference.Child("users").Child(currentUserId).Child("friends").GetValueAsync().ContinueWithOnMainThread(task =>
@@ -50,14 +48,19 @@ public class FriendListManager : MonoBehaviour
 
     private void CreateFriendItem(string friendId)
     {
-        GameObject friendItemGO = Instantiate(friendItemPrefab, scrollView.content);
-        FriendItem friendItem = friendItemGO.GetComponent<FriendItem>();
-        friendItem.SetFriendId(friendId);
-        friendItems.Add(friendItem);
-        
-        // Suscribirse a los cambios en el estado en línea del amigo
-        DatabaseReference friendOnlineRef = databaseReference.Child("users").Child(friendId).Child("online");
-        friendOnlineRef.ValueChanged += OnFriendOnlineStatusChanged;
+        if (!friendItemsDictionary.ContainsKey(friendId))
+        {
+            GameObject friendItemGO = Instantiate(friendItemPrefab, scrollView.content);
+            FriendItem friendItem = friendItemGO.GetComponent<FriendItem>();
+            friendItem.SetFriendId(friendId);
+            friendItems.Add(friendItem);
+            friendItemsDictionary.Add(friendId, friendItem);
+            
+            // Suscribirse a los cambios en el estado en línea del amigo
+            DatabaseReference friendOnlineRef = databaseReference.Child("users").Child(friendId).Child("online");
+            friendOnlineRef.ValueChanged += OnFriendOnlineStatusChanged;
+            friendOnlineRef.ValueChanged += notificationManager.OnFriendOnlineStatusChanged;
+        }
     }
     private void OnFriendOnlineStatusChanged(object sender, ValueChangedEventArgs args)
     {

@@ -21,9 +21,6 @@ public class FriendRequestManager : MonoBehaviour
     {
         databaseReference = FirebaseDatabase.DefaultInstance.RootReference.Child("users");
         currentUserId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-        GameObject onlineStateObject = new GameObject("OnlineState");
-        OnlineState onlineState = onlineStateObject.AddComponent<OnlineState>();
-        onlineState.currentUserId = currentUserId;
     }
 
     public void SendFriendRequest()
@@ -74,12 +71,12 @@ public class FriendRequestManager : MonoBehaviour
         AddFriend(senderId, currentUserId);
         AddFriend(currentUserId, senderId);
         // Eliminar la solicitud del nodo del remitente
-        databaseReference.Child(senderId).Child("friendRequests").Child(currentUserId).Child(requestKey).RemoveValueAsync();
+        databaseReference.Child(currentUserId).Child("friendRequests").Child(requestKey).RemoveValueAsync();
     }
 
     public void RejectFriendRequest(string senderId, string requestKey)
     {
-        databaseReference.Child(senderId).Child("friendRequests").Child(currentUserId).Child(requestKey).Child("status").SetValueAsync("rejected");
+        databaseReference.Child(currentUserId).Child("friendRequests").Child(requestKey).RemoveValueAsync();
     }
 
     private void AddFriend(string userId, string friendId)
@@ -115,11 +112,12 @@ public class FriendRequestManager : MonoBehaviour
                     string senderId = requestData["senderId"].ToString();
                     string senderUsername = requestData["senderUsername"].ToString();
                     string receiverId = requestData["receiverId"].ToString();
+                    string requestKey = requestSnapshot.Key;
                     string status = requestData["status"].ToString();
                     
                     if (receiverId == currentUserId && status == "pending")
                     {
-                        FriendRequest request = new FriendRequest(senderId, senderUsername, receiverId, status);
+                        FriendRequest request = new FriendRequest(senderId, senderUsername, receiverId, requestKey, status);
                         requests.Add(request);
                     }
                 }
@@ -135,16 +133,16 @@ public class FriendRequestManager : MonoBehaviour
             {
                 foreach (FriendRequest request in requests)
                 {
-                    CreateRequestItem(request.senderId, request.senderUsername,request.receiverId);
+                    CreateRequestItem(request.senderId, request.senderUsername,request.receiverId, request.requestKey);
                 }
             }
         });
     }
 
-    private void CreateRequestItem(string senderId,string senderUsername, string receiverId)
+    private void CreateRequestItem(string senderId,string senderUsername, string receiverId, string requestKey)
     {
         GameObject requestItemGO = Instantiate(requestItemPrefab, scrollView.content);
         FriendRequestItem requestItem = requestItemGO.GetComponent<FriendRequestItem>();
-        requestItem.SetRequestData(senderId,senderUsername, receiverId, this);
+        requestItem.SetRequestData(senderId,senderUsername, receiverId,requestKey, this);
     }
 }

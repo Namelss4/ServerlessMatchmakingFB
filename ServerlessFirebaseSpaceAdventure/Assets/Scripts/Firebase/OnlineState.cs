@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,15 +11,21 @@ public class OnlineState : MonoBehaviour
     public string currentUserId;
     void Start()
     {
-        Application.focusChanged += OnApplicationFocusChanged;
+        currentUserId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        SetOnlineStatus(true);
     }
-    private void OnApplicationFocusChanged(bool hasFocus)
+    private void OnApplicationQuit()
     {
-        SetOnlineStatus(hasFocus);
+        SetOnlineStatus(false);
     }
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        SetOnlineStatus(!pauseStatus);
+    }
+
     private void OnDestroy()
     {
-        Application.focusChanged -= OnApplicationFocusChanged;
+        SetOnlineStatus(false);
     }
     private void SetOnlineStatus(bool isOnline)
     {
@@ -27,17 +34,21 @@ public class OnlineState : MonoBehaviour
             DatabaseReference userRef = FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(currentUserId).Child("online");
             if (isOnline)
             {
-                userRef.OnDisconnect().SetValue(false);
+                Debug.Log("User is online.");
                 userRef.SetValueAsync(true);
+                Debug.Log(userRef.ToString() + " is set to true");
+
             }
             else
             {
+                Debug.Log("User is offline.");
                 userRef.SetValueAsync(false);
             }
         }
         else
         {
             Debug.LogError("currentUserId is null or empty.");
-        }
+        } 
     }
+    
 }

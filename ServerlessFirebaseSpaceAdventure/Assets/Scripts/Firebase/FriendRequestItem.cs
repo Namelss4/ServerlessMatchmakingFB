@@ -13,6 +13,7 @@ public class FriendRequestItem : MonoBehaviour
     private string senderId;
     private string senderUsername;
     private string receiverId;
+    private string requestKey;
     private DatabaseReference databaseReference;
     private FriendRequestManager friendRequestManager;
 
@@ -23,11 +24,12 @@ public class FriendRequestItem : MonoBehaviour
         rejectButton.onClick.AddListener(RejectRequest);
     }
 
-    public void SetRequestData(string senderId,string senderUsername, string receiverId, FriendRequestManager friendRequestManager)
+    public void SetRequestData(string senderId,string senderUsername, string receiverId,string requestKey, FriendRequestManager friendRequestManager)
     {
         this.senderId = senderId;
         this.senderUsername = senderUsername;
         this.receiverId = receiverId;
+        this.requestKey = requestKey;
         this.friendRequestManager = friendRequestManager;
         LoadUserData();
     }
@@ -49,13 +51,13 @@ public class FriendRequestItem : MonoBehaviour
 
     private void AcceptRequest()
     {
-        friendRequestManager.AcceptFriendRequest(senderId, receiverId);
+        friendRequestManager.AcceptFriendRequest(senderId, requestKey);
         Destroy(gameObject);
     }
 
     private void RejectRequest()
     {
-        friendRequestManager.RejectFriendRequest(senderId, receiverId);
+        friendRequestManager.RejectFriendRequest(senderId, requestKey);
         Destroy(gameObject);
     }
 }
