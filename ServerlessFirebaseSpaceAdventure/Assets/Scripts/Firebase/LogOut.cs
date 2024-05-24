@@ -15,13 +15,17 @@ public class LogOut : MonoBehaviour
     }
     public void LogOutClick()
     {
-        //FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("searching").SetValueAsync(false);
-        //FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("match").SetValueAsync("");
-        //FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("accepted").SetValueAsync(false);
+        //string userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        //DatabaseReference userRef = dataBaseReference.Child("users").Child(userId).Child("online");
+
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("searching").SetValueAsync(false);
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("match").SetValueAsync("");
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("accepted").SetValueAsync(false);
+
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("online").SetValueAsync(false);
 
         FirebaseAuth.DefaultInstance.SignOut();
 
-        SetOnlineStatus(false);
         FirebaseAuth.DefaultInstance.SignOut();
         Highscore.SetAmount(0);
         SceneManager.LoadScene(0);
@@ -29,16 +33,6 @@ public class LogOut : MonoBehaviour
     
     private void SetOnlineStatus(bool isOnline)
     {
-        string userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-        DatabaseReference userRef = dataBaseReference.Child("users").Child(userId).Child("online");
-        if (isOnline)
-        {
-            userRef.OnDisconnect().SetValue(false);
-            userRef.SetValueAsync(true);
-        }
-        else
-        {
-            userRef.SetValueAsync(false);
-        }
+        
     }
 }
