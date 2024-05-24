@@ -46,9 +46,9 @@ public class FriendOnlineStatusManager : MonoBehaviour
    }
    private void OnFriendOnlineStatusChanged(object sender, ValueChangedEventArgs args)
    {
-      string friendId = args.Snapshot.Key;
+      string friendId = args.Snapshot.Reference.Parent.Key;
       bool isOnline = (bool)args.Snapshot.Value;
-
+      Debug.Log("OnFriendOnlineStatusChangedFriend ID: " + friendId + " is online: " + isOnline);
       // Obtener el nombre de usuario del amigo
       databaseReference.Child("users").Child(friendId).Child("username").GetValueAsync().ContinueWithOnMainThread(task =>
       {
