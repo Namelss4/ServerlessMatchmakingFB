@@ -1,16 +1,12 @@
 using Firebase.Auth;
 using Firebase.Database;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class BackGame : MonoBehaviour
 {
     private string uid;
-    private string scene;
+    [SerializeField] private string scene;
 
     private void Start()
     {

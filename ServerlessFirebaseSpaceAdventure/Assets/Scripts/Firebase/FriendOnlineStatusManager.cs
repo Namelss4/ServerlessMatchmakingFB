@@ -5,7 +5,6 @@ using UnityEngine;
 using Firebase.Database;
 using Firebase.Auth;
 using Firebase.Extensions;
-using System;
 
 public class FriendOnlineStatusManager : MonoBehaviour
 {
