@@ -18,13 +18,13 @@ public class BackGame : MonoBehaviour
     private void HandleMatch(object sender, ValueChangedEventArgs e)
     {
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("searching").SetValueAsync(false);
-        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("match").SetValueAsync(false);
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("searching").SetValueAsync(false);
 
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("match").SetValueAsync("");
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("match").SetValueAsync("");
 
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("accepted").SetValueAsync(false);
-        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("match").SetValueAsync(false);
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("accepted").SetValueAsync(false);
 
         SceneManager.LoadScene(scene);
     }
@@ -32,13 +32,13 @@ public class BackGame : MonoBehaviour
     private void HandleUser(object sender, ValueChangedEventArgs e)
     {
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("searching").SetValueAsync(false);
-        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("match").SetValueAsync(false);
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("searching").SetValueAsync(false);
 
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("match").SetValueAsync("");
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("match").SetValueAsync("");
 
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("accepted").SetValueAsync(false);
-        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("match").SetValueAsync(false);
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child($"{FirebaseAuth.DefaultInstance.CurrentUser.UserId}").Child("accepted").SetValueAsync(false);
 
         SceneManager.LoadScene(scene);
     }
