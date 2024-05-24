@@ -34,11 +34,6 @@ public class BackGame : MonoBehaviour
             FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(matchId).Child("accepted").ValueChanged += HandleMatch;
             FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("accepted").ValueChanged += HandleUser;
         });
-
-
-
-
-
     }
 
     private void HandleMatch(object sender, ValueChangedEventArgs e)
@@ -112,5 +107,4 @@ public class BackGame : MonoBehaviour
     {
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("accepted").SetValueAsync(false);
     }
-
 }
