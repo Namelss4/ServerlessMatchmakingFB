@@ -4,6 +4,7 @@ using UnityEngine;
 using Firebase.Auth;
 using UnityEngine.SceneManagement;
 using Firebase.Database;
+using UnityEditor.SearchService;
 
 public class LogOut : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class LogOut : MonoBehaviour
     }
     public void LogOutClick()
     {
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("searching").SetValueAsync(false);
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("match").SetValueAsync("");
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("accepted").SetValueAsync(false);
+
+        FirebaseAuth.DefaultInstance.SignOut();
+
         SetOnlineStatus(false);
         FirebaseAuth.DefaultInstance.SignOut();
         Highscore.SetAmount(0);

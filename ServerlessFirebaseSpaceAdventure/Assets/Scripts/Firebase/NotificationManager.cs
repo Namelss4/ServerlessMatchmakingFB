@@ -20,7 +20,7 @@ public class NotificationManager : MonoBehaviour
     }
     public void OnFriendOnlineStatusChanged(object sender, ValueChangedEventArgs args)
     {
-        SortFriendsByOnlineStatus();
+        //SortFriendsByOnlineStatus();
     }
     public void SetNotificationConnected(string friendName)
     {

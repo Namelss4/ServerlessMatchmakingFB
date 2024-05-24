@@ -12,6 +12,8 @@ public class Auth : MonoBehaviour
 {
     private DatabaseReference dataBaseReference;
     private FirebaseAuth auth;
+
+
     void Start()
     {
         FirebaseAuth.DefaultInstance.StateChanged += AuthStateChange;
