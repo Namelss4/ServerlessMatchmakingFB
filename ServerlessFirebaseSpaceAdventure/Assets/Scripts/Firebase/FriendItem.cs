@@ -55,9 +55,16 @@ public class FriendItem : MonoBehaviour
 
     private void OnlineStatusChanged(object sender, ValueChangedEventArgs args)
     {
-        bool isOnline = (bool)args.Snapshot.Value;
-        onlineStatusImage.color = isOnline ? Color.green : Color.red;
-        GetComponentInParent<FriendListManager>().SortFriendsByOnlineStatus();
+        if(gameObject!=null)
+        {
+            bool isOnline = (bool)args.Snapshot.Value;
+            onlineStatusImage.color = isOnline ? Color.green : Color.red;
+            GetComponentInParent<FriendListManager>().SortFriendsByOnlineStatus();
+        }
+        else
+        {
+            Debug.Log("FriendItem is null. Doesnt matter");
+        }
     }
 
     public bool IsOnline
