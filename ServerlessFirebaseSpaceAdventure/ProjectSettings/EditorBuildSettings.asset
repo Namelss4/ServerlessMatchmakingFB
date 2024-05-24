@@ -14,14 +14,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Space Adventure/Scenes/Game.unity
     guid: 1f84376ce564cf74ab0863c8368808a8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Proyecto/Scenes/Heist/Login.unity
     guid: 496c4ce7a12599c4fa07e728b06b3cde
-  - enabled: 1
+  - enabled: 0
     path: Assets/Proyecto/Scenes/Heist/Main.unity
     guid: 3c6923ef7f9cd9243a2cf72dc7413da1
-  - enabled: 1
-    path: Assets/Proyecto/Scenes/Heist/Game.unity
-    guid: fa796bc48a4870344a70b8b7d7aeaad7
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -1,0 +1,5 @@
+D:/0DSemestre7/sistDist/ServerlessMatchmakingFB/ServerlessFirebaseSpaceAdventure/.utmp/RelWithDebInfo/36123w4z/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/0DSemestre7/sistDist/ServerlessMatchmakingFB/ServerlessFirebaseSpaceAdventure/.utmp/RelWithDebInfo/36123w4z/arm64-v8a/CMakeFiles/rebuild_cache.dir
+D:/0DSemestre7/sistDist/ServerlessMatchmakingFB/ServerlessFirebaseSpaceAdventure/.utmp/RelWithDebInfo/36123w4z/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+D:/0DSemestre7/sistDist/ServerlessMatchmakingFB/ServerlessFirebaseSpaceAdventure/.utmp/RelWithDebInfo/36123w4z/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+D:/0DSemestre7/sistDist/ServerlessMatchmakingFB/ServerlessFirebaseSpaceAdventure/.utmp/RelWithDebInfo/36123w4z/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir
