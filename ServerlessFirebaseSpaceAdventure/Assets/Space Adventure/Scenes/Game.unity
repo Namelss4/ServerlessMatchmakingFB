@@ -205,6 +205,8 @@ GameObject:
   m_Component:
   - component: {fileID: 70977014}
   - component: {fileID: 70977013}
+  - component: {fileID: 70977015}
+  - component: {fileID: 70977016}
   m_Layer: 0
   m_Name: manager
   m_TagString: Untagged
@@ -219,7 +221,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 70977012}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5799bf851128f6744bbbb5c8cc5d798a, type: 3}
   m_Name: 
@@ -240,6 +242,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &70977015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70977012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd41205246bd06f4fa9237672c265c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  labelText: {fileID: 905234971}
+--- !u!114 &70977016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70977012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6edae762b0ece774ca6ab36412ca8c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userText: {fileID: 1632855095}
 --- !u!1 &79114472
 GameObject:
   m_ObjectHideFlags: 0
@@ -17838,7 +17866,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -10.4114685, y: 0, z: -3.6213913, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
