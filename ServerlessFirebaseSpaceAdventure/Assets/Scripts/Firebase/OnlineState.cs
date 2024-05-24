@@ -27,7 +27,7 @@ public class OnlineState : MonoBehaviour
     {
         SetOnlineStatus(false);
     }
-    private void SetOnlineStatus(bool isOnline)
+    public void SetOnlineStatus(bool isOnline)
     {
         if (!string.IsNullOrEmpty(currentUserId))
         {

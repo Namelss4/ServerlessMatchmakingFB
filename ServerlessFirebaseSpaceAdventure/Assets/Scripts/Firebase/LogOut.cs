@@ -8,6 +8,7 @@ using Firebase.Database;
 public class LogOut : MonoBehaviour
 {
     private DatabaseReference dataBaseReference;
+    public OnlineState onlineState;
     
     void Start()
     {
@@ -18,21 +19,15 @@ public class LogOut : MonoBehaviour
         //string userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
         //DatabaseReference userRef = dataBaseReference.Child("users").Child(userId).Child("online");
 
-        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("searching").SetValueAsync(false);
-        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("match").SetValueAsync("");
-        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("accepted").SetValueAsync(false);
-
-        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("online").SetValueAsync(false);
-
-        FirebaseAuth.DefaultInstance.SignOut();
+        dataBaseReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("searching").SetValueAsync(false);
+        dataBaseReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("match").SetValueAsync("");
+        dataBaseReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("accepted").SetValueAsync(false);
+        dataBaseReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).Child("online").SetValueAsync(false);
+        onlineState.SetOnlineStatus(false);
 
         FirebaseAuth.DefaultInstance.SignOut();
         Highscore.SetAmount(0);
         SceneManager.LoadScene(0);
     }
-    
-    private void SetOnlineStatus(bool isOnline)
-    {
-        
-    }
+
 }
