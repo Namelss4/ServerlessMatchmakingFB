@@ -57,8 +57,6 @@ public class MatchMaking : MonoBehaviour
 
             found.SetActive(true);
 
-            searching.isSearch = false;
-
             Debug.Log("Selected user ID: " + match);
         }
     }

@@ -1,7 +1,9 @@
 using Firebase.Auth;
 using Firebase.Database;
+using Firebase.Extensions;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -19,15 +21,32 @@ public class ChangeSearch : MonoBehaviour
     {
         string uid = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
 
-        if (isSearch)
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("searching").GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("searching").SetValueAsync(false);
-            isSearch = false; 
-        }
-        else if (!isSearch) 
-        {
-            FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("searching").SetValueAsync(true);
-            isSearch = true;
-        }
+            if (task.IsFaulted)
+            {
+                Debug.Log(task.Exception);
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                Debug.Log(snapshot);
+
+                isSearch = bool.Parse(snapshot.GetRawJsonValue());
+            }
+
+            if (isSearch)
+            {
+                FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("searching").SetValueAsync(false);
+                isSearch = false;
+            }
+            else if (!isSearch)
+            {
+                FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("searching").SetValueAsync(true);
+                isSearch = true;
+            }
+
+        });
+
     }
 }

@@ -3,13 +3,15 @@ using Firebase.Database;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.Networking.Match;
 using UnityEngine.SceneManagement;
 
 public class Found : MonoBehaviour
 {
     [SerializeField]
     private MatchMaking match;
+    [SerializeField]
+    private GameObject found;
+
     [SerializeField]
     private string scene;
 
@@ -27,6 +29,7 @@ public class Found : MonoBehaviour
 
     public void Rechazar()
     {
+        found.SetActive(false);
 
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("searching").SetValueAsync(false);
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(match.match).Child("searching").SetValueAsync(false);
@@ -35,6 +38,8 @@ public class Found : MonoBehaviour
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(match.match).Child("match").SetValueAsync("");
 
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("accepted").SetValueAsync(false);
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(match.match).Child("accepted").SetValueAsync(false);
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(match.match).Child("accepted").SetValueAsync(true);
         FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(match.match).Child("accepted").SetValueAsync(false);
     }
 
@@ -80,7 +85,7 @@ public class Found : MonoBehaviour
 
     private void Update()
     {
-        if (userAccepted == true &&  matchAccepted == true)
+        if (userAccepted == true && matchAccepted == true)
         {
             SceneManager.LoadScene(scene);
         }

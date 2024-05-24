@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-//using UnityEngine.Networking.Match;
 
 public class SetupLabel : MonoBehaviour
 {
@@ -47,9 +46,5 @@ public class SetupLabel : MonoBehaviour
                 }
             });
         });
-
-
-       
-
     }
 }
