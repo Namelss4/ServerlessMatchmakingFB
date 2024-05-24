@@ -10,7 +10,6 @@ public class FriendListManager : MonoBehaviour
 {
     public ScrollRect scrollView;
     public GameObject friendItemPrefab;
-    public NotificationManager notificationManager;
 
     private DatabaseReference databaseReference;
     private string currentUserId;
@@ -59,7 +58,6 @@ public class FriendListManager : MonoBehaviour
             // Suscribirse a los cambios en el estado en línea del amigo
             DatabaseReference friendOnlineRef = databaseReference.Child("users").Child(friendId).Child("online");
             friendOnlineRef.ValueChanged += OnFriendOnlineStatusChanged;
-            friendOnlineRef.ValueChanged += notificationManager.OnFriendOnlineStatusChanged;
         }
     }
     private void OnFriendOnlineStatusChanged(object sender, ValueChangedEventArgs args)

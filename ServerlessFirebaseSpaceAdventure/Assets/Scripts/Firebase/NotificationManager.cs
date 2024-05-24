@@ -18,10 +18,15 @@ public class NotificationManager : MonoBehaviour
     {
         databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
     }
-    public void OnFriendOnlineStatusChanged(object sender, ValueChangedEventArgs args)
+   /* public void OnFriendOnlineStatusChanged(object sender, ValueChangedEventArgs args)
     {
+<<<<<<< Updated upstream
         //SortFriendsByOnlineStatus();
     }
+=======
+        SortFriendsByOnlineStatus();
+    }*/
+>>>>>>> Stashed changes
     public void SetNotificationConnected(string friendName)
     {
         notification_Connected.SetActive(true);
@@ -42,5 +47,5 @@ public class NotificationManager : MonoBehaviour
         notification_Disconnected.SetActive(false);
     }
 
-   
+    
 }
